@@ -22,7 +22,16 @@
 			}),
 
 			hits({
-				container: '#algolia-hits'
+				container: '#algolia-hits',
+				templates: {
+					item: `
+      <a href={ "attribute": "name" }>
+		<h2>
+		  {{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}
+		</h2>
+	  </a>
+    `
+				}
 			})
 		]);
 
