@@ -1,23 +1,36 @@
 <script lang="ts">
-	let query = '';
+	import algoilasearch from 'algoliasearch';
+	import instantsearch from 'instantsearch.js';
+	import { searchBox, hits } from 'instantsearch.js/es/widgets';
+	import { onMount } from 'svelte';
+
 	const ALGOLIAAPPID = 'SG8XZAM7JF';
 	const SORCHONLY = 'bc5c6545619049347419ee4574613e3c';
 	const ALGOLIASEARCH = 'SG8XZAM7JF-dsn.algolia.net';
-	$: hits = [];
-	async function handleappleiSearch() {
-		if (query.length < 2) {
-			return;
-		}
-		const response = await fetch(ALGOLIASEARCH, {
-			headers: {
-				'X-Algolia-Application-Id': ALGOLIAAPPID,
-				'X-Algolia-API-Key': SORCHONLY
-			}
+
+	const searchClient = algoilasearch(ALGOLIAAPPID, SORCHONLY);
+
+	onMount(() => {
+		let search = instantsearch({
+			indexName: 'dev_CAMPS',
+			searchClient: searchClient
 		});
-		hits = response.hits;
-	}
+
+		search.addWidgets([
+			searchBox({
+				container: '#algolia-search'
+			}),
+
+			hits({
+				container: '#algolia-hits'
+			})
+		]);
+
+		search.start();
+	});
 </script>
 
 <div>
-	<input bind:value={query} on:change={handleappleiSearch} type="text" />
+	<div id="algolia-search" />
+	<div id="algolia-hits" />
 </div>
