@@ -25,7 +25,7 @@
 				container: '#algolia-hits',
 				templates: {
 					item: `
-      <a href={ "attribute": "name" }>
+      <a href=definitelynotarickroll.com>
 		<h2>
 		  {{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}
 		</h2>
